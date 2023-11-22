@@ -100,11 +100,11 @@ export class PokemonRepository extends GrpcRepository {
     })
   }
 
-  async listPokemon(pokemon: ListPokemon): Promise<ListPokemon> {
+  async listPokemon(pokemons: ListPokemon): Promise<ListPokemon> {
     return new Promise((resolve, reject) => {
       try {
         this.client.listPokemon(
-          pokemon,
+          pokemons,
           (error: GrpcError, response: ListPokemon) => {
             if (error) {
               return reject(this.formatError(error))
@@ -115,7 +115,7 @@ export class PokemonRepository extends GrpcRepository {
       } catch (err) {
         logger.error('LIST_POKEMON_ERROR', {
           err: err as Error,
-          pokemon,
+          pokemons,
         })
         reject(err)
       }

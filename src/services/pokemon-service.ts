@@ -1,10 +1,6 @@
 import { Request, Response } from '@sdk12/api'
-import { PokemonRepository } from '../repository/pokemon/pokemon-repository'
+import { PokemonRepository } from '../repository'
 import { CreatePokemon, GetPokemon, UpdatePokemon, UpdateLevelPokemon, ListPokemon } from '../entity/pokemon'
-import { BadRequestError } from '../entity/errors'
-import path from 'path'
-
-const pathProto = path.join(__dirname, '..', '..', 'src/protos/pokemon.proto')
 
 export class PokemonService {
   private pokemonRepository: PokemonRepository
@@ -15,10 +11,10 @@ export class PokemonService {
 
   public createPokemon = async (request: Request, response: Response): Promise<void> => {
     try {
-      const pokemon: CreatePokemon = this.handleCreatePokemonRequest(request.body, request.url)
+      const args: CreatePokemon = this.handleCreatePokemonRequest(request.body, request.url)
 
       const pokemonResponse = await this.pokemonRepository.createPokemon(
-        pokemon
+        args
       )
 
       response.status(201).json({ id: pokemonResponse.id }).send()
@@ -41,13 +37,13 @@ export class PokemonService {
 
   public getPokemonById = async (request: Request, response: Response): Promise<void> => {
     try {
-      const pokemon: GetPokemon = this.handleGetPokemonRequest(request.body, request.url)
+      const args: GetPokemon = this.handleGetPokemonRequest(request.body, request.url)
 
       const pokemonResponse = await this.pokemonRepository.getPokemonById(
-        pokemon.id
+        args.id
       )
 
-      response.status(200).json({ 
+      response.status(200).json({
         id: pokemonResponse.id,
         name: pokemonResponse.name,
         level: pokemonResponse.level,
@@ -73,12 +69,9 @@ export class PokemonService {
 
   public updatePokemon = async (request: Request, response: Response): Promise<void> => {
     try {
-      const pokemon: UpdatePokemon = this.handleUpdatePokemonRequest(request.body, request.url)
-      
-      const pokemonResponse = await this.pokemonRepository.updatePokemon(
-        pokemon
-      )
+      const args: UpdatePokemon = this.handleUpdatePokemonRequest(request.body, request.url)
 
+      await this.pokemonRepository.updatePokemon(args)
       response.status(200).json({ updated: true }).send()
       return
     } catch (error) {
@@ -103,14 +96,13 @@ export class PokemonService {
 
   public updateLevelPokemon = async (request: Request, response: Response): Promise<void> => {
     try {
-      const pokemon: UpdateLevelPokemon = this.handleUpdateLevelPokemonRequest(request.body, request.url)
-      
-      const pokemonResponse = await this.pokemonRepository.updateLevelPokemon(
-        pokemon
+      const args: UpdateLevelPokemon = this.handleUpdateLevelPokemonRequest(request.body, request.url)
+
+      await this.pokemonRepository.updateLevelPokemon(
+        args
       )
 
       response.status(200).json({ levelUpdated: true }).send()
-      
       return
     } catch (error) {
       console.log(error)
@@ -135,29 +127,14 @@ export class PokemonService {
 
   public listPokemon = async (request: Request, response: Response): Promise<void> =>  {
     try {
-      const pokemon: ListPokemon = this.handleListPokemonRequest(request.body, request.url)
-      
-      const pokemonResponse = await this.pokemonRepository.listPokemon(
-        pokemon
+      const args: ListPokemon = this.handleListPokemonRequest(request.body, request.url)
+
+      const pokemonsList = await this.pokemonRepository.listPokemon(
+        args
       )
 
-      response.status(200).json([
-        {
-          found: true
-        },
-        { 
-          id: pokemonResponse.id,
-          name: pokemonResponse.name,
-          level: pokemonResponse.level,
-          basicForm: pokemonResponse.basicForm,
-          ability: pokemonResponse.ability,
-          middleFormEvolutionLevel: pokemonResponse.middleFormEvolutionLevel,
-          middleForm: pokemonResponse.middleForm,
-          finalFormEvolutionLeveld: pokemonResponse.finalFormEvolutionLevel,
-          finalForm: pokemonResponse.finalForm
-        }
-      ]).send()
-      
+      const pokemons = pokemonsList[Object.keys(pokemonsList)[0]];
+      response.status(200).json({ found: true, pokemons }).send()
       return
     } catch (error) {
       console.log(error)

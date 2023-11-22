@@ -65,17 +65,3 @@ export interface ListPokemon {
   finalForm?: string
   hasMoreEvolution?: boolean
 }
-
-export interface Pokemon {
-  id: string
-  name: string
-  level: number
-  basicForm: string
-  ability: string
-  abilities: string[]
-  middleFormEvolutionLevel: number
-  middleForm: string
-  finalFormEvolutionLevel: number
-  finalForm: string
-  hasMoreEvolution: boolean
-}
