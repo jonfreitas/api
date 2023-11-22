@@ -1,0 +1,38 @@
+{
+  "type": "api",
+  "name": "pokedex",
+  "context": "/pokemon",
+  "updated": "2023-11-07T22:26:12.164Z",
+  "created": "2023-11-07T12:36:16.405Z",
+  "engines": {
+    "api": "3.1.0"
+  },
+  "routes": [
+    {
+      "name": "create",
+      "type": "rest",
+      "pattern": [""]
+    },
+    {
+      "name": "update",
+      "type": "rest",
+      "pattern": [""]
+    },
+    {
+      "name": "update-level",
+      "type": "rest",
+      "pattern": [""]
+    },
+    {
+      "name": "get",
+      "type": "rest",
+      "pattern": [""]
+    },
+    {
+      "name": "list",
+      "type": "rest",
+      "pattern": [""]
+    }
+  ],
+  "services": []
+}
