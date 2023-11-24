@@ -6,8 +6,7 @@ export class PokemonRepository extends GrpcRepository {
   static build(): PokemonRepository {
     const build = buildClient({
       proto: 'pokemon.proto',
-      // ipAddress: process.env.POKEDATA_SERVER_IP,
-      ipAddress: '0.0.0.0:50051',
+      ipAddress: String(process.env.POKEDATA_SERVER_IP)
     })
     return new PokemonRepository(build)
   }
