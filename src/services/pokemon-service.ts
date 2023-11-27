@@ -21,6 +21,7 @@ export class PokemonService {
       return
     } catch (error) {
       console.log(error)
+      this.sendError(response, error)
     }
   }
 
@@ -58,6 +59,7 @@ export class PokemonService {
       return
     } catch (error) {
       console.log(error)
+      this.sendError(response, error)
     }
   }
 
@@ -80,6 +82,7 @@ export class PokemonService {
       return
     } catch (error) {
       console.log(error)
+      this.sendError(response, error)
     }
   }
 
@@ -113,6 +116,7 @@ export class PokemonService {
       return
     } catch (error) {
       console.log(error)
+      this.sendError(response, error)
     }
   }
 
@@ -154,6 +158,7 @@ export class PokemonService {
       return
     } catch (error) {
       console.log(error)
+      this.sendError(response, error)
     }
   }
 
@@ -162,6 +167,14 @@ export class PokemonService {
       abilities: pokemon.abilities,
       hasMoreEvolution: pokemon.hasMoreEvolution
     }
+  }
+
+  private sendError(response: Response, error: { message: any; details: any }) {
+    response.status(400).json({ error: error.message, details: error.details }).send()
+    response.status(403).json({ error: error.message, details: error.details }).send()
+    response.status(404).json({ error: error.message, details: error.details }).send()
+    response.status(500).json({ error: error.message, details: error.details }).send()
+    response.status(503).json({ error: error.message, details: error.details }).send()
   }
 }
 

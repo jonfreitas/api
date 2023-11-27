@@ -2,7 +2,7 @@ import { ErrorType } from './ErrorType'
 
 export class InternalServerError extends Error {
   constructor(
-    message = 'Houve um problema mas já estamos resolvendo',
+    message = 'Internal Server Error',
     details = 'Aguarde alguns instantes e tente novamente.'
   ) {
     super(message)
