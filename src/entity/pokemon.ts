@@ -36,9 +36,29 @@ export interface UpdatePokemon {
   finalFormEvolutionLevel?: number
   finalForm?: string
   hasMoreEvolution?: boolean
+  updated?: boolean
+  responseMessage?: string
 }
 
 export interface UpdateLevelPokemon {
+  id: string
+  name?: string
+  level: string
+  basicForm?: string
+  ability?: string
+  abilities?: string[]
+  middleFormEvolutionLevel?: number
+  middleForm?: string
+  finalFormEvolutionLevel?: number
+  finalForm?: string
+  hasMoreEvolution?: boolean
+  sentMessage?: boolean
+  origin?: string
+  updated?: boolean
+  responseMessage?: string
+}
+
+export interface PublishMessageUpdateLevelPokemon {
   id: string
   name?: string
   level: string

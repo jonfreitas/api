@@ -51,7 +51,7 @@ export class PokemonService {
         ability: pokemonResponse.ability,
         middleFormEvolutionLevel: pokemonResponse.middleFormEvolutionLevel,
         middleForm: pokemonResponse.middleForm,
-        finalFormEvolutionLeveld: pokemonResponse.finalFormEvolutionLevel,
+        finalFormEvolutionLevel: pokemonResponse.finalFormEvolutionLevel,
         finalForm: pokemonResponse.finalForm,
         hasMoreEvolution: pokemonResponse.hasMoreEvolution
       }).send()
@@ -71,8 +71,12 @@ export class PokemonService {
     try {
       const args: UpdatePokemon = this.handleUpdatePokemonRequest(request.body, request.url)
 
-      await this.pokemonRepository.updatePokemon(args)
-      response.status(200).json({ updated: true }).send()
+      const pokemonResponse = await this.pokemonRepository.updatePokemon(args)
+
+      response.status(200).json({
+        updated: pokemonResponse.updated,
+        message: pokemonResponse.responseMessage
+      }).send()
       return
     } catch (error) {
       console.log(error)
@@ -90,7 +94,9 @@ export class PokemonService {
       middleForm: pokemon.middleForm,
       finalFormEvolutionLevel: pokemon.finalFormEvolutionLevel,
       finalForm: pokemon.finalForm,
-      hasMoreEvolution: pokemon.hasMoreEvolution
+      hasMoreEvolution: pokemon.hasMoreEvolution,
+      updated: pokemon.updated,
+      responseMessage: pokemon.responseMessage
     }
   }
 
@@ -98,11 +104,12 @@ export class PokemonService {
     try {
       const args: UpdateLevelPokemon = this.handleUpdateLevelPokemonRequest(request.body, request.url)
 
-      await this.pokemonRepository.updateLevelPokemon(
-        args
-      )
+      const pokemonResponse = await this.pokemonRepository.updateLevelPokemon(args)
 
-      response.status(200).json({ levelUpdated: true }).send()
+      response.status(200).json({
+        levelUpdated: pokemonResponse.updated,
+        message: pokemonResponse.responseMessage
+      }).send()
       return
     } catch (error) {
       console.log(error)
@@ -121,7 +128,11 @@ export class PokemonService {
       middleForm: pokemon.middleForm,
       finalFormEvolutionLevel: pokemon.finalFormEvolutionLevel,
       finalForm: pokemon.finalForm,
-      hasMoreEvolution: pokemon.hasMoreEvolution
+      hasMoreEvolution: pokemon.hasMoreEvolution,
+      sentMessage: pokemon.sentMessage,
+      origin: pokemon.origin,
+      updated: pokemon.updated,
+      responseMessage: pokemon.responseMessage
     }
   }
 
@@ -134,7 +145,12 @@ export class PokemonService {
       )
 
       const pokemons = pokemonsList[Object.keys(pokemonsList)[0]];
-      response.status(200).json({ found: true, pokemons }).send()
+
+      if (pokemons !== undefined) {
+        response.status(200).json({ found: true, pokemons }).send()
+        return
+      }
+      response.status(200).json({ found: false }).send()
       return
     } catch (error) {
       console.log(error)
