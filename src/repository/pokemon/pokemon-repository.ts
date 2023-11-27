@@ -1,6 +1,6 @@
 import { logger } from '@sdk12/api'
 import { buildClient, GrpcError, GrpcRepository } from '../grpc'
-import { CreatePokemon, GetPokemon, UpdatePokemon, UpdateLevelPokemon, PublishMessageUpdateLevelPokemon, ListPokemon } from '../../entity/pokemon'
+import { CreatePokemon, GetPokemon, UpdatePokemon, UpdateLevelPokemon, ListPokemon } from '../../entity/pokemon'
 
 export class PokemonRepository extends GrpcRepository {
   static build(): PokemonRepository {

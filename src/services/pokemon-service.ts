@@ -1,6 +1,6 @@
 import { Request, Response } from '@sdk12/api'
 import { PokemonRepository } from '../repository'
-import { CreatePokemon, GetPokemon, UpdatePokemon, UpdateLevelPokemon, ListPokemon } from '../entity/pokemon'
+import { CreatePokemon, GetPokemon, UpdatePokemon, UpdateLevelPokemon, ListPokemon } from '@/entity/pokemon'
 
 export class PokemonService {
   private pokemonRepository: PokemonRepository
@@ -37,6 +37,7 @@ export class PokemonService {
   }
 
   public getPokemonById = async (request: Request, response: Response): Promise<void> => {
+    console.log(request)
     try {
       const args: GetPokemon = this.handleGetPokemonRequest(request.body, request.url)
 
