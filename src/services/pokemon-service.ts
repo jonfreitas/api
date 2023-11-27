@@ -1,5 +1,5 @@
 import { Request, Response } from '@sdk12/api'
-import { PokemonRepository } from '../repository'
+import { PokemonRepository } from '@/repository'
 import { CreatePokemon, GetPokemon, UpdatePokemon, UpdateLevelPokemon, ListPokemon } from '@/entity/pokemon'
 
 export class PokemonService {

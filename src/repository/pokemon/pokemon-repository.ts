@@ -1,13 +1,13 @@
 import { logger } from '@sdk12/api'
 import { buildClient, GrpcError, GrpcRepository } from '../grpc'
-import { CreatePokemon, GetPokemon, UpdatePokemon, UpdateLevelPokemon, ListPokemon } from '../../entity/pokemon'
+import { CreatePokemon, GetPokemon, UpdatePokemon, UpdateLevelPokemon, ListPokemon } from '@/entity/pokemon'
 
 export class PokemonRepository extends GrpcRepository {
   static build(): PokemonRepository {
     const build = buildClient({
       proto: 'pokemon.proto',
-      // ipAddress: String(process.env.POKEDATA_SERVER_IP)
-      ipAddress: '0.0.0.0:50051'
+      ipAddress: process.env.POKEDATA_SERVER_IP
+      // ipAddress: '0.0.0.0:50051'
     })
     return new PokemonRepository(build)
   }

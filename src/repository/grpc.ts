@@ -8,7 +8,7 @@ import {
   UnauthorizedError,
   UnavailableError,
   ValidationError,
-} from '../entity/errors'
+} from '@/entity/errors'
 
 export type GrpcClient = ReturnType<typeof Engine.prototype.setClient>
 
@@ -29,8 +29,7 @@ export const buildClient = (
     __dirname,
     '..',
     '..',
-    'node_modules',
-    '@sdk12',
+    'src',
     'protos'
   )
 ): GrpcClient => {
