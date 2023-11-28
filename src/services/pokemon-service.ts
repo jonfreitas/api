@@ -1,9 +1,11 @@
 import { Request, Response } from '@sdk12/api'
 import { PokemonRepository } from '@/repository'
 import { CreatePokemon, GetPokemon, UpdatePokemon, UpdateLevelPokemon, ListPokemon } from '@/entity/pokemon'
+import { RequestHandler } from "@/handlers/request"
 
 export class PokemonService {
   private pokemonRepository: PokemonRepository
+  private handler: RequestHandler
 
   constructor() {
     this.pokemonRepository = PokemonRepository.build()
@@ -11,11 +13,9 @@ export class PokemonService {
 
   public createPokemon = async (request: Request, response: Response): Promise<void> => {
     try {
-      const args: CreatePokemon = this.handleCreatePokemonRequest(request.body, request.url)
+      const args: CreatePokemon = this.handler.handleCreatePokemonRequest(request.body)
 
-      const pokemonResponse = await this.pokemonRepository.createPokemon(
-        args
-      )
+      const pokemonResponse = await this.pokemonRepository.createPokemon(args)
 
       response.status(201).json({ id: pokemonResponse.id }).send()
       return
@@ -25,25 +25,11 @@ export class PokemonService {
     }
   }
 
-  private handleCreatePokemonRequest = (pokemon: CreatePokemon, url: string): CreatePokemon => {
-    return {
-      basicForm: pokemon.basicForm,
-      ability: pokemon.ability,
-      middleFormEvolutionLevel: pokemon.middleFormEvolutionLevel,
-      middleForm: pokemon.middleForm,
-      finalFormEvolutionLevel: pokemon.finalFormEvolutionLevel,
-      finalForm: pokemon.finalForm
-    }
-  }
-
   public getPokemonById = async (request: Request, response: Response): Promise<void> => {
-    console.log(request)
     try {
-      const args: GetPokemon = this.handleGetPokemonRequest(request.body, request.url)
+      const args: GetPokemon = this.handler.handleGetPokemonRequest(request.body)
 
-      const pokemonResponse = await this.pokemonRepository.getPokemonById(
-        args.id
-      )
+      const pokemonResponse = await this.pokemonRepository.getPokemonById(args.id)
 
       response.status(200).json({
         id: pokemonResponse.id,
@@ -64,15 +50,9 @@ export class PokemonService {
     }
   }
 
-  private handleGetPokemonRequest = (pokemonId: string, url: string): GetPokemon => {
-    return {
-      id: pokemonId
-    }
-  }
-
   public updatePokemon = async (request: Request, response: Response): Promise<void> => {
     try {
-      const args: UpdatePokemon = this.handleUpdatePokemonRequest(request.body, request.url)
+      const args: UpdatePokemon = this.handler.handleUpdatePokemonRequest(request.body)
 
       const pokemonResponse = await this.pokemonRepository.updatePokemon(args)
 
@@ -87,26 +67,9 @@ export class PokemonService {
     }
   }
 
-  private handleUpdatePokemonRequest = (pokemon: UpdatePokemon, url: string): UpdatePokemon => {
-    return {
-      id: pokemon.id,
-      name: pokemon.name,
-      level: pokemon.level,
-      basicForm: pokemon.basicForm,
-      ability: pokemon.ability,
-      middleFormEvolutionLevel: pokemon.middleFormEvolutionLevel,
-      middleForm: pokemon.middleForm,
-      finalFormEvolutionLevel: pokemon.finalFormEvolutionLevel,
-      finalForm: pokemon.finalForm,
-      hasMoreEvolution: pokemon.hasMoreEvolution,
-      updated: pokemon.updated,
-      responseMessage: pokemon.responseMessage
-    }
-  }
-
   public updateLevelPokemon = async (request: Request, response: Response): Promise<void> => {
     try {
-      const args: UpdateLevelPokemon = this.handleUpdateLevelPokemonRequest(request.body, request.url)
+      const args: UpdateLevelPokemon = this.handler.handleUpdateLevelPokemonRequest(request.body)
 
       const pokemonResponse = await this.pokemonRepository.updateLevelPokemon(args)
 
@@ -121,36 +84,13 @@ export class PokemonService {
     }
   }
 
-  private handleUpdateLevelPokemonRequest = (pokemon: UpdateLevelPokemon, url: string): UpdateLevelPokemon => {
-    return {
-      id: pokemon.id,
-      name: pokemon.name,
-      level: pokemon.level,
-      basicForm: pokemon.basicForm,
-      ability: pokemon.ability,
-      abilities: pokemon.abilities,
-      middleFormEvolutionLevel: pokemon.middleFormEvolutionLevel,
-      middleForm: pokemon.middleForm,
-      finalFormEvolutionLevel: pokemon.finalFormEvolutionLevel,
-      finalForm: pokemon.finalForm,
-      hasMoreEvolution: pokemon.hasMoreEvolution,
-      sentMessage: pokemon.sentMessage,
-      origin: pokemon.origin,
-      updated: pokemon.updated,
-      responseMessage: pokemon.responseMessage
-    }
-  }
-
   public listPokemon = async (request: Request, response: Response): Promise<void> =>  {
     try {
-      const args: ListPokemon = this.handleListPokemonRequest(request.body, request.url)
+      const args: ListPokemon = this.handler.handleListPokemonRequest(request.body)
 
-      const pokemonsList = await this.pokemonRepository.listPokemon(
-        args
-      )
+      const pokemonsList = await this.pokemonRepository.listPokemon(args)
 
       const pokemons = pokemonsList[Object.keys(pokemonsList)[0]];
-
       if (pokemons !== undefined) {
         response.status(200).json({ found: true, pokemons }).send()
         return
@@ -160,13 +100,6 @@ export class PokemonService {
     } catch (error) {
       console.log(error)
       this.sendError(response, error)
-    }
-  }
-
-  private handleListPokemonRequest = (pokemon: ListPokemon, url: string): ListPokemon => {
-    return {
-      abilities: pokemon.abilities,
-      hasMoreEvolution: pokemon.hasMoreEvolution
     }
   }
 
