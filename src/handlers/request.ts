@@ -2,7 +2,7 @@ import {CreatePokemon, GetPokemon, ListPokemon, UpdateLevelPokemon, UpdatePokemo
 
 export class RequestHandler {
 
-  public handleCreatePokemonRequest = (pokemon: CreatePokemon): CreatePokemon => {
+  public static handleCreatePokemonRequest = (pokemon: CreatePokemon): CreatePokemon => {
     return {
       basicForm: pokemon.basicForm,
       ability: pokemon.ability,
@@ -13,13 +13,13 @@ export class RequestHandler {
     }
   }
 
-  public handleGetPokemonRequest = (pokemonId: string): GetPokemon => {
+  public static handleGetPokemonRequest = (pokemonId: string): GetPokemon => {
     return {
       id: pokemonId
     }
   }
 
-  public handleUpdatePokemonRequest = (pokemon: UpdatePokemon): UpdatePokemon => {
+  public static handleUpdatePokemonRequest = (pokemon: UpdatePokemon): UpdatePokemon => {
     return {
       id: pokemon.id,
       name: pokemon.name,
@@ -36,7 +36,7 @@ export class RequestHandler {
     }
   }
 
-  public handleUpdateLevelPokemonRequest = (pokemon: UpdateLevelPokemon): UpdateLevelPokemon => {
+  public static handleUpdateLevelPokemonRequest = (pokemon: UpdateLevelPokemon): UpdateLevelPokemon => {
     return {
       id: pokemon.id,
       name: pokemon.name,
@@ -56,7 +56,7 @@ export class RequestHandler {
     }
   }
 
-  public handleListPokemonRequest = (pokemon: ListPokemon): ListPokemon => {
+  public static handleListPokemonRequest = (pokemon: ListPokemon): ListPokemon => {
     return {
       abilities: pokemon.abilities,
       hasMoreEvolution: pokemon.hasMoreEvolution

@@ -5,7 +5,6 @@ import { RequestHandler } from "@/handlers/request"
 
 export class PokemonService {
   private pokemonRepository: PokemonRepository
-  private handler: RequestHandler
 
   constructor() {
     this.pokemonRepository = PokemonRepository.build()
@@ -13,7 +12,7 @@ export class PokemonService {
 
   public createPokemon = async (request: Request, response: Response): Promise<void> => {
     try {
-      const args: CreatePokemon = this.handler.handleCreatePokemonRequest(request.body)
+      const args: CreatePokemon = RequestHandler.handleCreatePokemonRequest(request.body)
 
       const pokemonResponse = await this.pokemonRepository.createPokemon(args)
 
@@ -27,7 +26,7 @@ export class PokemonService {
 
   public getPokemonById = async (request: Request, response: Response): Promise<void> => {
     try {
-      const args: GetPokemon = this.handler.handleGetPokemonRequest(request.body)
+      const args: GetPokemon = RequestHandler.handleGetPokemonRequest(request.body)
 
       const pokemonResponse = await this.pokemonRepository.getPokemonById(args.id)
 
@@ -52,7 +51,7 @@ export class PokemonService {
 
   public updatePokemon = async (request: Request, response: Response): Promise<void> => {
     try {
-      const args: UpdatePokemon = this.handler.handleUpdatePokemonRequest(request.body)
+      const args: UpdatePokemon = RequestHandler.handleUpdatePokemonRequest(request.body)
 
       const pokemonResponse = await this.pokemonRepository.updatePokemon(args)
 
@@ -69,7 +68,7 @@ export class PokemonService {
 
   public updateLevelPokemon = async (request: Request, response: Response): Promise<void> => {
     try {
-      const args: UpdateLevelPokemon = this.handler.handleUpdateLevelPokemonRequest(request.body)
+      const args: UpdateLevelPokemon = RequestHandler.handleUpdateLevelPokemonRequest(request.body)
 
       const pokemonResponse = await this.pokemonRepository.updateLevelPokemon(args)
 
@@ -86,7 +85,7 @@ export class PokemonService {
 
   public listPokemon = async (request: Request, response: Response): Promise<void> =>  {
     try {
-      const args: ListPokemon = this.handler.handleListPokemonRequest(request.body)
+      const args: ListPokemon = RequestHandler.handleListPokemonRequest(request.body)
 
       const pokemonsList = await this.pokemonRepository.listPokemon(args)
 
